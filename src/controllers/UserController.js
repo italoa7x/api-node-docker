@@ -1,4 +1,5 @@
 const conect = require('../database/Connection')
+const connection = require('../database/Connection')
 
 module.exports = {
     async index(req, res) {
@@ -25,6 +26,19 @@ module.exports = {
         .delete()
 
         return res.status(204).send()
+    },
+    async update(req, res) {
+        const { nome, apelido } = req.body
+        const { id } = req.params
+        
+        const result = await conect('users')
+        .where('id', '=', id)
+        .update({
+            nome: nome,
+            apelido: apelido
+        })
+        
+        return res.json(result)
     }
 
 }
